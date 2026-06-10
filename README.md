@@ -18,7 +18,7 @@ facilita las tareas de gestión interna.
 
 ## Instalación
 
-Siga estos pasos para clonar y el proyecto de forma local utilizando Git Bash:
+Siga estos pasos para clonar el proyecto de forma local utilizando Git Bash:
 
 1. Clone el repositorio en su equipo local:
    ```bash
