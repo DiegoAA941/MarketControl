@@ -8,6 +8,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #f9fafb;
 }
 
 header {
@@ -218,6 +219,192 @@ main {
     margin-top: 150px;
 }
 
+.catalogo-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 2%;
+    margin-bottom: 20px;
+}
+
+.catalogo-info p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4a4a4a;
+}
+
+.cantidad-producto {
+    font-weight: 700;
+    color: #10b981;
+}
+
+.ordenar-producto {
+    position: relative;
+}
+
+.boton-ordenar {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a4a4a;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.ordenar-opciones {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 200px;
+    z-index: 850;
+    overflow: hidden;
+}
+
+.ordenar-opciones button {
+    width: 100%;
+    padding: 12px 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4a4a4a;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.ordenar-opciones button:hover {
+    background-color: #ecfdf5;
+    color: #10b981;
+}
+
+.ordenar-producto.abierto .ordenar-opciones {
+    display: block;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    margin: 20px;    
+}
+
+.producto-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.producto-visual {
+    position: relative;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.imagen-producto {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+.etiqueta-contenedor {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.producto-detalles {
+    margin: 15px 0;
+}
+
+.producto-marca {
+    font-size: 12px;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.producto-nombre {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+.producto-compra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.precios {
+    display: flex;
+    flex-direction: column;
+}
+
+.precio-actual {
+    font-size: 18px;
+    font-weight: 700;
+    color: #10b981;
+}
+
+.precio-antiguo {
+    font-size: 13px;
+    font-weight: 500;
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+.boton-agregar {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #10b981;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.boton-agregar:hover {
+    background-color: #059669;
+}
+
+
 /* RESPONSIVIDAD */
 @media (max-width: 768px) {
     .boton-buscar {
@@ -267,6 +454,37 @@ main {
     .carrito-sidebar {
         width: 85vw;
         right: -90vw;
+    }
+
+    .catalogo-info {
+        padding: 15px 4%;
+        margin-bottom: 15px;
+    }
+
+    .catalogo-info p {
+        font-size: 14px;
+    }
+
+    .ordenar-opciones {
+        width: 180px;
+    }
+
+    .productos-grid {
+        gap: 15px;
+        padding: 0 4%;
+    }
+
+    .producto-card {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .producto-visual {
+        height: 140px;
+    }
+
+    .precio-actual {
+        font-size: 16px;
     }
 
 }
