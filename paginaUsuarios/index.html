@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketControl</title>
+    <title>MarketControl · Tienda</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -16,54 +16,68 @@
         <nav class="encabezado">
             <div class="barra-superior">
                 <p class="logo">MarketControl</p>
-                <button type="button" class="boton-buscar"></button>
-                <form action="" method="get">
-                    <input type="search" class="buscador-lupa" name="" placeholder="Buscar productos...">
+
+                <button type="button" class="boton-buscar" aria-label="Buscar productos" aria-expanded="false"></button>
+
+                <form role="search" action="" method="get">
+                    <input type="search" class="buscador-lupa" name="q" aria-label="Buscar productos"
+                        placeholder="Buscar productos...">
                 </form>
+
                 <div class="carrito-contenedor">
-                    <button type="button" class="boton-carrito">Carrito</button>
-                    <div class="carrito-sidebar">
+                    <button type="button" class="boton-carrito" aria-label="Abrir carrito de compras">
+                        Carrito
+                        <span class="carrito-badge" hidden>0</span>
+                    </button>
+
+                    <aside class="carrito-sidebar" role="dialog" aria-modal="true" aria-label="Carrito de compras"
+                        aria-hidden="true">
                         <div class="carrito-cabecera">
                             <h3>Carrito</h3>
-                            <button class="carrito-cerrar">x</button>
+                            <button type="button" class="carrito-cerrar" aria-label="Cerrar carrito">&times;</button>
                         </div>
-                        <div class="carrito-cuerpo">
+                        <div class="carrito-cuerpo vacio">
                             <div class="carrito-img"></div>
                             <h4>Carrito vacío</h4>
-                            <p>Agregar productos para comenzar</p>
-                            <button class="boton-accion">Ver productos</button>
+                            <p>Agrega productos para comenzar</p>
                         </div>
-                    </div>
+                    </aside>
                 </div>
             </div>
-            <div class="categoria">
-                <button class="categoria-producto activo">Todos</button>
-                <button class="categoria-producto">Lácteos</button>
-                <button class="categoria-producto">Abarrotes</button>
-                <button class="categoria-producto">Panadería</button>
-                <button class="categoria-producto">Bebidas</button>
-                <button class="categoria-producto">Verduras</button>
-                <button class="categoria-producto">Carnes</button>
+
+            <div class="categoria" role="group" aria-label="Filtrar por categoría">
+                <button type="button" class="categoria-producto activo" data-categoria="TODOS">Todos</button>
+                <button type="button" class="categoria-producto" data-categoria="1">Lácteos</button>
+                <button type="button" class="categoria-producto" data-categoria="2">Abarrotes</button>
+                <button type="button" class="categoria-producto" data-categoria="4">Panadería</button>
+                <button type="button" class="categoria-producto" data-categoria="5">Bebidas</button>
+                <button type="button" class="categoria-producto" data-categoria="6">Verduras</button>
+                <button type="button" class="categoria-producto" data-categoria="7">Carnes</button>
             </div>
         </nav>
     </header>
-    <main>
+
+    <main id="contenido">
         <div class="catalogo-info">
             <p><span class="cantidad-producto">0</span> productos</p>
             <div class="ordenar-producto">
-                <button type="" class="boton-ordenar">Ordenar <span>▼</span></button>
-                <div class="ordenar-opciones">
-                    <button type="button">Precio: Menor a Mayor</button>
-                    <button type="button">Precio: Mayor a Menor</button>
-                    <button type="button">Nombre: A-Z</button>
+                <button type="button" class="boton-ordenar" aria-haspopup="true" aria-expanded="false">
+                    <span class="orden-actual">Ordenar</span> <span aria-hidden="true">▼</span>
+                </button>
+                <div class="ordenar-opciones" role="menu">
+                    <button type="button" role="menuitem" data-orden="precio-asc">Precio: Menor a Mayor</button>
+                    <button type="button" role="menuitem" data-orden="precio-desc">Precio: Mayor a Menor</button>
+                    <button type="button" role="menuitem" data-orden="nombre-az">Nombre: A-Z</button>
                 </div>
             </div>
         </div>
-        <div class="productos-grid">
-            
-        </div>
+
+        <div class="productos-grid"></div>
     </main>
+
+    <div class="overlay"></div>
+
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 
 </html>
