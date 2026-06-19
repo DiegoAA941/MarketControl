@@ -3,21 +3,21 @@ const productosBD = [
         IdProducto: 1,
         IdCategoria: 1,
         CodigoSKU: "PROD-001",
-        NombreProducto: "Leche entera Gloria 1L",
-        PrecioCompra: 5.20,     
-        PrecioVenta: 4.50,      
+        NombreProducto: "Leche entera Gloria 390g",
+        PrecioVenta: 3.50,     
+        PorcentajeDescuento: 20,
         StockActual: 45,
         StockMinimo: 10,
         Marca: "Gloria",        
-        imagen: "https://elregionalpiura.com.pe/media/jact/medium/images/Fotografias/2022/Junio_2022/Leche-Gloria-01.jpg" 
+        imagen: "https://i.ebayimg.com/images/g/NmAAAeSw36Nono0C/s-l1600.webp" 
     },
     {
         IdProducto: 2,
         IdCategoria: 4,
         CodigoSKU: "PROD-002",
         NombreProducto: "Pan de Molde Blanco Familiar",
-        PrecioCompra: 6.00,
         PrecioVenta: 7.20,      
+        PorcentajeDescuento: 0,
         StockActual: 20,
         StockMinimo: 5,
         Marca: "Bimbo",
@@ -64,16 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const botonVerProductos = document.querySelector('.boton-accion');
     const sidebarCarrito = document.querySelector('.carrito-sidebar');
 
-    if (botonCarrito && sidebarCarrito && botonCerrarCarrito && botonVerProductos) {
+    if (botonCarrito && sidebarCarrito && botonCerrarCarrito) {
         botonCarrito.addEventListener('click', () => {
             sidebarCarrito.classList.add('mostrar');
         });
         botonCerrarCarrito.addEventListener('click', () => {
             sidebarCarrito.classList.remove('mostrar');
         });
-        botonVerProductos.addEventListener('click', () => {
-            sidebarCarrito.classList.remove('mostrar');
-        });
+        if (botonVerProductos) {
+            botonVerProductos.addEventListener('click', () => {
+                sidebarCarrito.classList.remove('mostrar');
+            });
+        }
     }
 
     const mapCategorias = {
@@ -142,19 +144,19 @@ function renderizarProductos(productosARenderizar) {
     productosGrid.innerHTML = '';
 
     productosARenderizar.forEach(producto => {
-        const tieneDescuento = producto.PrecioVenta < producto.PrecioCompra;
+        const tieneDescuento = producto.PorcentajeDescuento && producto.PorcentajeDescuento > 0;
         
-        const porcentaje = tieneDescuento
-            ? Math.round(((producto.PrecioCompra - producto.PrecioVenta) / producto.PrecioCompra) * 100)
-            : 0;
+        const precioFinal = tieneDescuento
+            ? producto.PrecioVenta - (producto.PrecioVenta * (producto.PorcentajeDescuento / 100))
+            : producto.PrecioVenta;
 
         const etiquetaHTML = tieneDescuento
-            ? `<div class="etiqueta-contenedor"><span>Oferta </span><span>-${porcentaje}%</span></div>`
+            ? `<div class="etiqueta-contenedor"><span>Oferta </span><span>-${producto.PorcentajeDescuento}%</span></div>`
             : '';
 
         const preciosHTML = tieneDescuento
-            ? `<span class="precio-actual">S/${producto.PrecioVenta.toFixed(2)}</span>
-               <span class="precio-antiguo">S/${producto.PrecioCompra.toFixed(2)}</span>`
+            ? `<span class="precio-actual">S/${precioFinal.toFixed(2)}</span>
+               <span class="precio-antiguo">S/${producto.PrecioVenta.toFixed(2)}</span>`
             : `<span class="precio-actual">S/${producto.PrecioVenta.toFixed(2)}</span>`;
 
         const tarjetaHTML = `
@@ -180,3 +182,90 @@ function renderizarProductos(productosARenderizar) {
     });
 }
 
+function agregarProductoAlCarrito(idProducto) {
+    const producto = productosBD.find(p => p.IdProducto === idProducto);
+    
+    if (producto) {
+        const tieneDescuento = producto.PorcentajeDescuento && producto.PorcentajeDescuento > 0;
+        const precioAUsar = tieneDescuento 
+            ? producto.PrecioVenta - (producto.PrecioVenta * (producto.PorcentajeDescuento / 100))
+            : producto.PrecioVenta;
+
+        const existeEnCarrito = carrito.find(p => p.IdProducto === idProducto);
+        
+        if (existeEnCarrito) {
+            existeEnCarrito.cantidad++;
+        } else {
+            carrito.push({
+                IdProducto: producto.IdProducto,
+                Nombre: producto.NombreProducto,
+                Precio: precioAUsar,
+                cantidad: 1,
+                imagen: producto.imagen
+            });
+        }
+        
+        actualizarCarritoUI();
+        
+        const botonCarritoUI = document.querySelector('.boton-carrito');
+        botonCarritoUI.style.backgroundColor = '#ecfdf5';
+        setTimeout(() => botonCarritoUI.style.backgroundColor = '#ffffff', 300);
+    }
+}
+
+function actualizarCarritoUI() {
+    const carritoCuerpo = document.querySelector('.carrito-cuerpo');
+    if (!carritoCuerpo) return;
+
+    if (carrito.length === 0) {
+        carritoCuerpo.innerHTML = `
+            <div class="carrito-img"></div>
+            <h4>Carrito vacío</h4>
+            <p>Agregar productos para comenzar</p>
+            <button class="boton-accion">Ver productos</button>
+        `;
+        const botonVerProductos = document.querySelector('.boton-accion');
+        const sidebarCarrito = document.querySelector('.carrito-sidebar');
+        if (botonVerProductos && sidebarCarrito) {
+            botonVerProductos.addEventListener('click', () => {
+                sidebarCarrito.classList.remove('mostrar');
+            });
+        }
+        return;
+    }
+
+    let totalPagar = 0;
+    let htmlProductos = '<div style="width: 100%; text-align: left; overflow-y: auto; max-height: 70vh;">';
+
+    carrito.forEach(item => {
+        const subtotal = item.Precio * item.cantidad;
+        totalPagar += subtotal;
+        
+        htmlProductos += `
+            <div style="display: flex; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; margin-bottom: 10px;">
+                <img src="${item.imagen}" alt="${item.Nombre}" style="width: 50px; height: 50px; object-fit: contain; margin-right: 15px; border-radius: 8px; background: #f9fafb;">
+                <div style="flex-grow: 1;">
+                    <h5 style="font-size: 13px; color: #1f2937; margin-bottom: 5px;">${item.Nombre}</h5>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span style="color: #7d7d7d;">Cant: ${item.cantidad}</span>
+                        <span style="font-weight: bold; color: #10b981;">S/${subtotal.toFixed(2)}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    htmlProductos += '</div>';
+
+    htmlProductos += `
+        <div style="width: 100%; margin-top: 20px; border-top: 2px solid #e0e0e0; padding-top: 15px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-bottom: 15px;">
+                <span>Total:</span>
+                <span style="color: #10b981;">S/${totalPagar.toFixed(2)}</span>
+            </div>
+            <button class="boton-accion" style="width: 100%;">Procesar Pago</button>
+        </div>
+    `;
+
+    carritoCuerpo.innerHTML = htmlProductos;
+}

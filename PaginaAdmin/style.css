@@ -1,0 +1,386 @@
+:root {
+    --navy-0: #0a1430;
+    --navy-1: #101d44;
+    --navy-2: #16265a;
+    --blue: #3b82f6;
+    --blue-soft: #60a5fa;
+    --ink: #0c1322;
+    --btn: #0a0f1f;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --label: #111827;
+    --line: #e5e7eb;
+    --field: #f3f4f6;
+    --field-line: #e8eaed;
+    --info-bg: #eef4ff;
+    --info-line: #dbe6fe;
+    --radius: 24px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: #fff;
+    background:
+        radial-gradient(1200px 700px at 78% 22%, #1d2f63 0%, rgba(29, 47, 99, 0) 55%),
+        radial-gradient(900px 600px at 15% 80%, #16244e 0%, rgba(22, 36, 78, 0) 60%),
+        linear-gradient(120deg, var(--navy-0) 0%, var(--navy-1) 48%, var(--navy-2) 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.contenedor-principal {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 56px;
+}
+
+.marca {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.logo {
+    width: 104px;
+    height: 104px;
+    border-radius: 26px;
+    margin: 0 auto 26px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(160deg, #4f93ff 0%, #2f7bf6 100%);
+    box-shadow: 0 16px 40px -12px rgba(47, 123, 246, .6);
+}
+
+.logo svg {
+    width: 54px;
+    height: 54px;
+    stroke: #fff;
+}
+
+.marca h1 {
+    margin: 0;
+    font-size: 54px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.eslogan {
+    margin: 14px 0 0;
+    font-size: 21px;
+    color: #cdd7ee;
+    font-weight: 400;
+}
+
+.lugar {
+    margin: 34px 0 0;
+    font-size: 14px;
+    color: #7fa0e0;
+    letter-spacing: .2px;
+}
+
+.pais {
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid #5e7fc0;
+    border-radius: 4px;
+    padding: 1px 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.panel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tarjeta {
+    width: 100%;
+    max-width: 560px;
+    background: var(--card);
+    color: var(--ink);
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: 0 40px 80px -24px rgba(0, 0, 0, .55);
+}
+
+.pestanas {
+    display: flex;
+    gap: 4px;
+    background: #eef0f4;
+    border-radius: 14px;
+    padding: 6px;
+    margin-bottom: 26px;
+}
+
+.pestana {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #475569;
+    font-family: inherit;
+    transition: background .18s, color .18s, box-shadow .18s;
+}
+
+.pestana svg {
+    width: 17px;
+    height: 17px;
+}
+
+.pestana[aria-selected="true"] {
+    background: #fff;
+    color: #0c1322;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+}
+
+.vista {
+    display: none;
+    animation: fade .25s ease;
+}
+
+.vista.activa {
+    display: block;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.vista h2 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 800;
+    color: #0c1322;
+}
+
+.subtitulo {
+    margin: 6px 0 24px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--label);
+    margin-bottom: 8px;
+}
+
+.opcional {
+    font-weight: 500;
+    color: #9aa3b2;
+}
+
+.control {
+    position: relative;
+}
+
+.campo input {
+    width: 100%;
+    border: 1px solid var(--field-line);
+    background: var(--field);
+    border-radius: 11px;
+    padding: 14px 15px;
+    font-size: 15px;
+    color: #111827;
+    font-family: inherit;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+}
+
+.campo input::placeholder {
+    color: #9aa3b2;
+}
+
+.campo input:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, .14);
+}
+
+.con-ojo input {
+    padding-right: 46px;
+}
+
+.ojo {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 4px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+}
+
+.ojo:hover {
+    color: #475569;
+}
+
+.ojo svg {
+    width: 20px;
+    height: 20px;
+}
+
+.boton-enviar {
+    width: 100%;
+    margin-top: 6px;
+    border: 0;
+    cursor: pointer;
+    background: var(--btn);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform .06s, background .18s;
+}
+
+.boton-enviar:hover {
+    background: #11182f;
+}
+
+.boton-enviar:active {
+    transform: translateY(1px);
+}
+
+.demostracion {
+    margin-top: 22px;
+    background: var(--info-bg);
+    border: 1px solid var(--info-line);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.titulo {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.fila {
+    color: #1d4ed8;
+}
+
+.fila b {
+    font-weight: 700;
+}
+
+.credencial {
+    color: #3b82f6;
+}
+
+.nota-pie {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13.5px;
+    color: #9aa3b2;
+    line-height: 1.55;
+}
+
+.mensaje {
+    margin-top: 16px;
+    border-radius: 11px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+}
+
+.mensaje.mostrar {
+    display: block;
+}
+
+.mensaje.exito {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.mensaje.error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+@media (max-width: 980px) {
+    .contenedor-principal {
+        grid-template-columns: 1fr;
+        padding: 36px 22px;
+        gap: 36px;
+    }
+
+    .panel {
+        justify-content: center;
+    }
+
+    .tarjeta {
+        max-width: 520px;
+    }
+
+    .marca h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 520px) {
+    .contenedor-principal {
+        padding: 26px 16px;
+    }
+
+    .tarjeta {
+        padding: 22px;
+    }
+
+    .pestana span.etiqueta {
+        display: none;
+    }
+
+    .marca h1 {
+        font-size: 36px;
+    }
+
+    .eslogan {
+        font-size: 18px;
+    }
+}
