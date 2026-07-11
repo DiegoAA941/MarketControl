@@ -27,38 +27,6 @@
         <section class="panel">
             <div class="tarjeta">
 
-                <div class="pestanas" role="tablist">
-                    <button class="pestana" role="tab" aria-selected="true" data-vista="acceso">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                            <path d="M10 17l5-5-5-5" />
-                            <path d="M15 12H3" />
-                        </svg>
-                        <span class="etiqueta">Ingresar</span>
-                    </button>
-                    <button class="pestana" role="tab" aria-selected="false" data-vista="registro">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M19 8v6" />
-                            <path d="M22 11h-6" />
-                        </svg>
-                        <span class="etiqueta">Registrarse</span>
-                    </button>
-                    <button class="pestana" role="tab" aria-selected="false" data-vista="restablecer">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="7.5" cy="15.5" r="4.5" />
-                            <path d="M10.7 12.3 21 2" />
-                            <path d="M17 6l3 3" />
-                            <path d="M14 9l3 3" />
-                        </svg>
-                        <span class="etiqueta">Restablecer</span>
-                    </button>
-                </div>
-
                 <form class="vista activa" id="acceso" novalidate>
                     <h2>Iniciar sesión</h2>
                     <p class="subtitulo">Accede con tus credenciales</p>
@@ -81,90 +49,7 @@
 
                     <button type="submit" class="boton-enviar">Iniciar Sesión</button>
 
-                    <div class="demostracion">
-                        <span class="titulo">Cuentas de prueba:</span><br>
-                        <span class="fila"><b>Admin:</b> <span class="credencial">admin / admin123</span></span><br>
-                        <span class="fila"><b>Empleado:</b> <span class="credencial">empleado1 / emp123</span></span>
-                    </div>
-
                     <div class="mensaje" id="acceso-msj"></div>
-                </form>
-
-                <form class="vista" id="registro" novalidate>
-                    <h2>Crear cuenta</h2>
-                    <p class="subtitulo">Completa tus datos para registrarte</p>
-
-                    <div class="campo">
-                        <label for="r-nombre">Nombre completo</label>
-                        <div class="control"><input id="r-nombre" type="text" placeholder="Ej. Ana Torres García"></div>
-                    </div>
-
-                    <div class="campo">
-                        <label for="r-usuario">Nombre de usuario</label>
-                        <div class="control"><input id="r-usuario" type="text" placeholder="Mínimo 4 caracteres"></div>
-                    </div>
-
-                    <div class="campo">
-                        <label for="r-correo">Correo electrónico <span class="opcional">(opcional)</span></label>
-                        <div class="control"><input id="r-correo" type="email" placeholder="correo@ejemplo.com"></div>
-                    </div>
-
-                    <div class="campo con-ojo">
-                        <label for="r-clave">Contraseña</label>
-                        <div class="control">
-                            <input id="r-clave" type="password" placeholder="Mínimo 6 caracteres">
-                            <button type="button" class="ojo" data-alternar="r-clave"
-                                aria-label="Mostrar contraseña"></button>
-                        </div>
-                    </div>
-
-                    <div class="campo con-ojo">
-                        <label for="r-clave2">Confirmar contraseña</label>
-                        <div class="control">
-                            <input id="r-clave2" type="password" placeholder="Repite tu contraseña">
-                            <button type="button" class="ojo" data-alternar="r-clave2"
-                                aria-label="Mostrar contraseña"></button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="boton-enviar">Crear Cuenta</button>
-
-                    <p class="nota-pie">Las nuevas cuentas se registran como empleados. Un administrador puede cambiar
-                        el rol.</p>
-
-                    <div class="mensaje" id="registro-msj"></div>
-                </form>
-
-                <form class="vista" id="restablecer" novalidate>
-                    <h2>Restablecer contraseña</h2>
-                    <p class="subtitulo">Ingresa tu usuario y una nueva contraseña</p>
-
-                    <div class="campo">
-                        <label for="x-usuario">Nombre de usuario</label>
-                        <div class="control"><input id="x-usuario" type="text" placeholder="Tu nombre de usuario"></div>
-                    </div>
-
-                    <div class="campo con-ojo">
-                        <label for="x-clave">Nueva contraseña</label>
-                        <div class="control">
-                            <input id="x-clave" type="password" placeholder="Mínimo 6 caracteres">
-                            <button type="button" class="ojo" data-alternar="x-clave"
-                                aria-label="Mostrar contraseña"></button>
-                        </div>
-                    </div>
-
-                    <div class="campo con-ojo">
-                        <label for="x-clave2">Confirmar nueva contraseña</label>
-                        <div class="control">
-                            <input id="x-clave2" type="password" placeholder="Repite la contraseña">
-                            <button type="button" class="ojo" data-alternar="x-clave2"
-                                aria-label="Mostrar contraseña"></button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="boton-enviar">Restablecer Contraseña</button>
-
-                    <div class="mensaje" id="restablecer-msj"></div>
                 </form>
 
             </div>

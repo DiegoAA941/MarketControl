@@ -1,0 +1,34 @@
+2026-06-20 01:13:55.886 [main] INFO  config.ConexionBD - Driver JDBC de SQL Server cargado correctamente.
+2026-06-20 01:13:56.017 [main] ERROR config.ConexionBD - Fallo al conectar con la base de datos 'MarketControl'. Codigo SQL: 08S01
+com.microsoft.sqlserver.jdbc.SQLServerException: The TCP/IP connection to the host localhost, port 1433 has failed. Error: "Connection refused: getsockopt. Verify the connection properties. Make sure that an instance of SQL Server is running on the host and accepting TCP/IP connections at the port. Make sure that TCP connections to the port are not blocked by a firewall.".
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDriverError(SQLServerException.java:242)
+	at com.microsoft.sqlserver.jdbc.SQLServerException.convertConnectExceptionToSQLServerException(SQLServerException.java:308)
+	at com.microsoft.sqlserver.jdbc.SocketFinder.findSocket(IOBuffer.java:2593)
+	at com.microsoft.sqlserver.jdbc.TDSChannel.open(IOBuffer.java:721)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectHelper(SQLServerConnection.java:3768)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.login(SQLServerConnection.java:3385)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectInternal(SQLServerConnection.java:3194)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connect(SQLServerConnection.java:1971)
+	at com.microsoft.sqlserver.jdbc.SQLServerDriver.connect(SQLServerDriver.java:1263)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:199)
+	at config.ConexionBD.getConexion(ConexionBD.java:60)
+	at app.PruebaConexion.main(PruebaConexion.java:12)
+2026-06-20 01:18:20.261 [main] INFO  config.ConexionBD - Driver JDBC de SQL Server cargado correctamente.
+2026-06-20 01:18:20.398 [main] ERROR config.ConexionBD - Fallo al conectar con la base de datos 'MarketControl'. Codigo SQL: 08S01
+com.microsoft.sqlserver.jdbc.SQLServerException: The TCP/IP connection to the host localhost, port 1433 has failed. Error: "Connection refused: getsockopt. Verify the connection properties. Make sure that an instance of SQL Server is running on the host and accepting TCP/IP connections at the port. Make sure that TCP connections to the port are not blocked by a firewall.".
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDriverError(SQLServerException.java:242)
+	at com.microsoft.sqlserver.jdbc.SQLServerException.convertConnectExceptionToSQLServerException(SQLServerException.java:308)
+	at com.microsoft.sqlserver.jdbc.SocketFinder.findSocket(IOBuffer.java:2593)
+	at com.microsoft.sqlserver.jdbc.TDSChannel.open(IOBuffer.java:721)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectHelper(SQLServerConnection.java:3768)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.login(SQLServerConnection.java:3385)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connectInternal(SQLServerConnection.java:3194)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.connect(SQLServerConnection.java:1971)
+	at com.microsoft.sqlserver.jdbc.SQLServerDriver.connect(SQLServerDriver.java:1263)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:199)
+	at config.ConexionBD.getConexion(ConexionBD.java:60)
+	at app.PruebaConexion.main(PruebaConexion.java:12)
+2026-06-20 01:21:03.795 [main] INFO  config.ConexionBD - Driver JDBC de SQL Server cargado correctamente.
+2026-06-20 01:21:04.325 [main] INFO  config.ConexionBD - Conexion establecida con la base de datos 'MarketControl' en localhost\SQLEXPRESS:1433.

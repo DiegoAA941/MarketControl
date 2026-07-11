@@ -1,0 +1,11 @@
+/MarketControl-backend/target/
+/MarketControl-backend/cp.txt
+
+# IDE / SO
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+Thumbs.db
+.DS_Store

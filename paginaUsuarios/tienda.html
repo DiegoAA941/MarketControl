@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MarketControl · Tienda</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Bodega el Progreso · Tienda</title>
+    <link rel="stylesheet" href="tienda.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,9 +13,12 @@
 
 <body>
     <header>
+        <div class="marquesina" id="marquesina" aria-hidden="true">
+            <div class="marquesina__pista" id="marquesina-pista"></div>
+        </div>
         <nav class="encabezado">
             <div class="barra-superior">
-                <p class="logo">MarketControl</p>
+                <p class="logo">Bodega el Progreso</p>
 
                 <button type="button" class="boton-buscar" aria-label="Buscar productos" aria-expanded="false"></button>
 
@@ -47,12 +50,6 @@
 
             <div class="categoria" role="group" aria-label="Filtrar por categoría">
                 <button type="button" class="categoria-producto activo" data-categoria="TODOS">Todos</button>
-                <button type="button" class="categoria-producto" data-categoria="1">Lácteos</button>
-                <button type="button" class="categoria-producto" data-categoria="2">Abarrotes</button>
-                <button type="button" class="categoria-producto" data-categoria="4">Panadería</button>
-                <button type="button" class="categoria-producto" data-categoria="5">Bebidas</button>
-                <button type="button" class="categoria-producto" data-categoria="6">Verduras</button>
-                <button type="button" class="categoria-producto" data-categoria="7">Carnes</button>
             </div>
         </nav>
     </header>
@@ -77,7 +74,49 @@
 
     <div class="overlay"></div>
 
-    <script src="script.js"></script>
+    <!-- ===================== CHECKOUT (Delivery / Recojo) ===================== -->
+    <div class="checkout-overlay" id="checkout-overlay" hidden>
+        <div class="checkout" role="dialog" aria-modal="true" aria-labelledby="checkout-titulo">
+            <div class="checkout-cab">
+                <h3 id="checkout-titulo">Finalizar pedido</h3>
+                <button type="button" class="checkout-cerrar" id="checkout-cerrar" aria-label="Cerrar">&times;</button>
+            </div>
+
+            <div class="checkout-tipo" role="group" aria-label="Tipo de entrega">
+                <button type="button" class="tipo-btn activo" data-tipo="delivery">Delivery</button>
+                <button type="button" class="tipo-btn" data-tipo="recojo">Recojo en tienda</button>
+            </div>
+            <p class="checkout-ayuda" id="checkout-ayuda">El pedido se registra y te contactamos para coordinar la entrega.</p>
+
+            <form id="checkout-form" class="checkout-form">
+                <label>Nombre completo <span>*</span>
+                    <input id="ck-nombres" type="text" required>
+                </label>
+                <label>Teléfono / WhatsApp <span>*</span>
+                    <input id="ck-telefono" type="text" inputmode="tel" required>
+                </label>
+                <div class="solo-delivery" id="solo-delivery">
+                    <label>Dirección de entrega <span>*</span>
+                        <input id="ck-direccion" type="text">
+                    </label>
+                    <label>Referencia
+                        <input id="ck-referencia" type="text" placeholder="Ej. frente al parque">
+                    </label>
+                </div>
+                <label>Observaciones
+                    <textarea id="ck-obs" rows="2" placeholder="Indicaciones adicionales (opcional)"></textarea>
+                </label>
+                <div class="ck-desglose" id="ck-desglose"></div>
+                <div class="checkout-total">Total: <strong id="ck-total">S/0.00</strong></div>
+                <button type="submit" class="boton-accion" id="ck-enviar">Enviar pedido por WhatsApp</button>
+                <p class="checkout-nota" id="ck-nota" hidden></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="tienda-toast" id="tienda-toast" hidden></div>
+
+    <script src="tienda.js"></script>
 </body>
 
 </html>

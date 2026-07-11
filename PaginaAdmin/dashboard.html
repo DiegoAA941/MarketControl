@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketControl — Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+
+    <div class="app">
+
+        <!-- ===================== BARRA LATERAL ===================== -->
+        <aside class="lateral" id="lateral" aria-label="Menú lateral">
+            <div class="lateral__marca">
+                <span class="lateral__logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
+                    </svg>
+                </span>
+                <span class="lateral__marca-texto">
+                    <strong>MarketControl</strong>
+                    <small>Bodega &amp; Abarrotes</small>
+                </span>
+            </div>
+
+            <nav class="lateral__nav" aria-label="Navegación principal">
+                <ul id="nav" class="nav"></ul>
+            </nav>
+
+            <div class="lateral__pie">
+                <div class="usuario-mini" id="usuario-mini"></div>
+                <button class="cerrar-sesion" type="button" id="cerrar-sesion">
+                    <span aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                    </span>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <div class="velo" id="velo" hidden></div>
+
+        <!-- ===================== CONTENIDO ===================== -->
+        <div class="contenido">
+
+            <header class="barra-superior">
+                <button class="menu-boton" type="button" id="menu-boton" aria-label="Abrir menú"
+                    aria-controls="lateral" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <p class="fecha" id="fecha"></p>
+            </header>
+
+            <main class="lienzo" id="contenido">
+
+                <!-- ============ VISTA: DASHBOARD ============ -->
+                <div id="vista-dashboard">
+
+                    <!-- Banner de bienvenida -->
+                    <section class="bienvenida" aria-label="Bienvenida">
+                        <span class="bienvenida__icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1" />
+                                <circle cx="20" cy="21" r="1" />
+                                <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
+                            </svg>
+                        </span>
+                        <div class="bienvenida__texto">
+                            <p class="bienvenida__saludo">Bienvenido,</p>
+                            <h1 class="bienvenida__nombre" id="b-nombre">—</h1>
+                            <p class="bienvenida__rol" id="b-rol"></p>
+                        </div>
+                        <div class="bienvenida__marca" aria-hidden="true">
+                            <span class="bienvenida__marca-icono">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="9" cy="21" r="1" />
+                                    <circle cx="20" cy="21" r="1" />
+                                    <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
+                                </svg>
+                            </span>
+                            <span>MarketControl</span>
+                        </div>
+                    </section>
+
+                    <!-- Tarjetas de resumen -->
+                    <section aria-label="Resumen del día">
+                        <div class="tarjetas" id="resumen"></div>
+                    </section>
+
+                    <!-- Ventas recientes + Alertas -->
+                    <div class="columnas">
+                        <section class="bloque" aria-labelledby="t-ventas">
+                            <h2 class="bloque__titulo" id="t-ventas">Ventas Recientes</h2>
+                            <ul class="lista lista-ventas" id="ventas"></ul>
+                        </section>
+
+                        <section class="bloque" aria-labelledby="t-alertas">
+                            <h2 class="bloque__titulo bloque__titulo--alerta" id="t-alertas">
+                                <span class="bloque__icono" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </span>
+                                Alertas de Inventario
+                            </h2>
+                            <ul class="lista lista-alertas" id="alertas"></ul>
+                        </section>
+                    </div>
+
+                    <!-- Pedidos en curso -->
+                    <section class="bloque" aria-labelledby="t-pedidos">
+                        <h2 class="bloque__titulo" id="t-pedidos">Pedidos en Curso</h2>
+                        <ul class="lista lista-pedidos" id="pedidos"></ul>
+                    </section>
+
+                </div>
+
+                <!-- ============ VISTA: INVENTARIO ============ -->
+                <div id="vista-inventario" hidden>
+
+                    <div class="inv-cabecera">
+                        <div>
+                            <h1 class="inv-titulo">Inventario</h1>
+                            <p class="inv-sub">Gestiona tus productos y stock</p>
+                        </div>
+                        <div class="inv-acciones">
+                            <button type="button" class="btn-inv btn-inv--negro" id="btn-nuevo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                                Nuevo Producto
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="inv-tarjetas">
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Total Productos</span>
+                            <span class="inv-card__valor" id="inv-total">0</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Valor del Inventario</span>
+                            <span class="inv-card__valor" id="inv-valor">S/ 0.00</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">
+                                <span class="inv-card__alerta" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                </span>
+                                Stock Bajo
+                            </span>
+                            <span class="inv-card__valor" id="inv-bajo">0</span>
+                        </div>
+                    </div>
+
+                    <div class="inv-buscador">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input type="search" id="inv-buscar" aria-label="Buscar productos"
+                            placeholder="Buscar por nombre, SKU o categoría...">
+                    </div>
+
+                    <div class="inv-tabla-wrap">
+                        <table class="tabla-inv">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>SKU</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Costo</th>
+                                    <th>Stock</th>
+                                    <th class="ta-der">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inv-tbody"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- ============ VISTA: PUNTO DE VENTA ============ -->
+                <div id="vista-pos" hidden>
+
+                    <div class="inv-cabecera">
+                        <div>
+                            <h1 class="inv-titulo">Punto de Venta</h1>
+                            <p class="inv-sub">Registra ventas y procesa pagos</p>
+                        </div>
+                        <div class="inv-acciones">
+                            <button type="button" class="btn-inv btn-inv--negro" id="pos-recojos">
+                                Pedidos de recojo
+                                <span class="btn-inv__badge" id="pos-recojos-badge" hidden>0</span>
+                            </button>
+                            <button type="button" class="btn-inv btn-inv--claro" id="pos-actualizar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="23 4 23 10 17 10" />
+                                    <polyline points="1 20 1 14 7 14" />
+                                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+                                </svg>
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pos-layout">
+
+                        <!-- Izquierda: productos -->
+                        <div class="pos-productos">
+                            <div class="inv-buscador">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                                <input type="search" id="pos-buscar" aria-label="Buscar productos"
+                                    placeholder="Buscar producto por nombre, SKU o categoría...">
+                            </div>
+                            <div class="pos-grid" id="pos-grid"></div>
+                        </div>
+
+                        <!-- Derecha: detalle de venta -->
+                        <aside class="pos-venta" aria-label="Detalle de venta">
+                            <div class="pos-venta__cab">
+                                <h2>
+                                    <span class="pos-venta__icono" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                        </svg>
+                                    </span>
+                                    Detalle de Venta
+                                </h2>
+                                <span class="pos-venta__count" id="pos-count">0 prod.</span>
+                            </div>
+
+                            <ul class="pos-carrito" id="pos-carrito"></ul>
+
+                            <div class="pos-totales">
+                                <div class="pos-linea"><span>Subtotal (sin IGV)</span><span class="pos-linea__val"
+                                        id="pos-subtotal">S/ 0.00</span></div>
+                                <div class="pos-linea"><span>IGV (18%)</span><span class="pos-linea__val"
+                                        id="pos-igv">S/ 0.00</span></div>
+                                <div class="pos-linea pos-linea--total"><span>Total a Pagar</span><span
+                                        class="pos-linea__val" id="pos-total">S/ 0.00</span></div>
+                            </div>
+
+                            <div class="pos-metodo-grupo">
+                                <label for="pos-metodo">Método de pago</label>
+                                <div class="pos-metodo">
+                                    <span class="pos-metodo__icono" id="pos-metodo-icono" aria-hidden="true"></span>
+                                    <select id="pos-metodo">
+                                        <option value="Efectivo" selected>Efectivo</option>
+                                        <option value="Yape">Yape</option>
+                                    </select>
+                                    <span class="pos-metodo__chevron" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="pos-cajero">
+                                <div>Cajero: <strong id="pos-cajero">—</strong></div>
+                                <div>Fecha: <span id="pos-fecha">—</span></div>
+                            </div>
+
+                            <button type="button" class="pos-completar" id="pos-completar" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="8 12 11 15 16 9" />
+                                </svg>
+                                Completar Venta — <span id="pos-btn-total">S/ 0.00</span>
+                            </button>
+                        </aside>
+
+                    </div>
+
+                </div>
+
+                <!-- ============ VISTA: DELIVERY ============ -->
+                <div id="vista-delivery" hidden>
+                    <div class="inv-cabecera">
+                        <div>
+                            <h1 class="inv-titulo">Delivery</h1>
+                            <p class="inv-sub">Gestiona los envíos y entregas</p>
+                        </div>
+                        <div class="inv-acciones">
+                            <button type="button" class="btn-inv btn-inv--negro" id="del-repartidores">Repartidores</button>
+                            <button type="button" class="btn-inv btn-inv--claro" id="del-actualizar">Actualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="del-alerta" id="del-alerta" hidden role="alert"></div>
+
+                    <div class="inv-tarjetas">
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Pedidos Activos</span>
+                            <span class="inv-card__valor" id="del-activos">0</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Entregados Hoy</span>
+                            <span class="inv-card__valor" id="del-entregados">0</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Ingresos de Envíos</span>
+                            <span class="inv-card__valor" id="del-ingresos">S/ 0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="pills" id="del-tabs" role="tablist"></div>
+                    <div class="del-lista" id="del-lista"></div>
+                </div>
+
+                <!-- ============ VISTA: REPORTES ============ -->
+                <div id="vista-reportes" hidden>
+                    <div class="inv-cabecera">
+                        <div>
+                            <h1 class="inv-titulo">Reportes y Análisis</h1>
+                            <p class="inv-sub">Analiza el rendimiento de tu negocio</p>
+                        </div>
+                        <div class="inv-acciones">
+                            <div class="rep-fecha">
+                                <select id="rep-rango" aria-label="Rango de fechas">
+                                    <option value="hoy" selected>Hoy</option>
+                                    <option value="semana">Esta Semana</option>
+                                    <option value="mes">Este Mes</option>
+                                    <option value="anio">Este Año</option>
+                                </select>
+                                <span class="rep-fecha__chevron" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                </span>
+                            </div>
+                            <button type="button" class="btn-inv btn-inv--claro" id="rep-actualizar">Actualizar</button>
+                        </div>
+                    </div>
+
+                    <div class="inv-tarjetas rep-kpis">
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Ventas Totales</span>
+                            <span class="inv-card__valor" id="rep-ventas">S/ 0.00</span>
+                            <span class="inv-card__pie" id="rep-ventas-pie">Hoy</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Transacciones</span>
+                            <span class="inv-card__valor" id="rep-trans">0</span>
+                            <span class="inv-card__pie" id="rep-trans-pie">Hoy</span>
+                        </div>
+                        <div class="inv-card">
+                            <span class="inv-card__titulo">Margen de Ganancia</span>
+                            <span class="inv-card__valor" id="rep-margen">S/ 0.00</span>
+                            <span class="inv-card__pie" id="rep-margen-pie">0% margen</span>
+                        </div>
+                    </div>
+
+                    <div class="pills" id="rep-tabs" role="tablist"></div>
+                    <div class="rep-panel" id="rep-panel"></div>
+
+                    <div class="rep-export">
+                        <button type="button" class="btn-inv btn-inv--claro" id="rep-csv">Exportar CSV</button>
+                        <button type="button" class="btn-inv btn-inv--claro" id="rep-pdf">Imprimir / PDF</button>
+                    </div>
+                </div>
+
+                <!-- ============ VISTA: CONFIGURACIÓN ============ -->
+                <div id="vista-config" hidden>
+                    <div class="inv-cabecera">
+                        <div>
+                            <h1 class="inv-titulo">Configuración</h1>
+                            <p class="inv-sub">Administra las opciones del sistema</p>
+                        </div>
+                    </div>
+
+                    <section class="cfg-card">
+                        <h2 class="cfg-card__titulo">
+                            <span class="cfg-card__icono" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 22V12h6v10"/></svg>
+                            </span>
+                            Información del Negocio
+                        </h2>
+                        <div class="cfg-grid">
+                            <div class="cfg-campo"><label>Nombre del negocio</label><input value="Bodega el Progreso" readonly></div>
+                            <div class="cfg-campo"><label>RUC</label><input value="20601234567" readonly></div>
+                            <div class="cfg-campo">
+                                <label for="cfg-direccion">Dirección</label>
+                                <input id="cfg-direccion" value="Jr. Lima 123, Parcona, Ica">
+                            </div>
+                            <div class="cfg-campo">
+                                <label for="cfg-telefono">Teléfono / WhatsApp</label>
+                                <input id="cfg-telefono" value="056-234567" inputmode="tel">
+                            </div>
+                            <div class="cfg-campo">
+                                <label for="cfg-costo-envio">Costo de envío (S/)</label>
+                                <input id="cfg-costo-envio" type="number" min="0" step="0.10" value="0">
+                            </div>
+                            <div class="cfg-campo">
+                                <label for="cfg-envio-gratis">Envío gratis desde (S/)</label>
+                                <input id="cfg-envio-gratis" type="number" min="0" step="1" value="0">
+                            </div>
+                            <div class="cfg-campo cfg-campo--full">
+                                <button type="button" class="btn-inv btn-inv--negro" id="btn-guardar-tel">Guardar datos del negocio</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="cfg-card">
+                        <h2 class="cfg-card__titulo">
+                            <span class="cfg-card__icono" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </span>
+                            Seguridad — Cambiar Contraseña
+                        </h2>
+                        <p class="cfg-hint">Como administrador, puedes actualizar la contraseña de cualquier usuario indicando su <strong>username</strong>.</p>
+                        <form id="form-clave" class="cfg-clave">
+                            <div class="cfg-campo">
+                                <label for="cl-username">Username del usuario</label>
+                                <input id="cl-username" type="text" placeholder="ej. admin" autocomplete="off">
+                            </div>
+                            <div class="cfg-campo">
+                                <label for="cl-nueva">Nueva contraseña</label>
+                                <input id="cl-nueva" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                            </div>
+                            <div class="cfg-campo">
+                                <label for="cl-confirmar">Confirmar nueva contraseña</label>
+                                <input id="cl-confirmar" type="password" autocomplete="new-password">
+                            </div>
+                            <button type="submit" class="btn-inv btn-inv--claro">Actualizar Contraseña</button>
+                        </form>
+                    </section>
+
+                    <section class="cfg-card">
+                        <h2 class="cfg-card__titulo">
+                            <span class="cfg-card__icono" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            </span>
+                            Información del Sistema
+                        </h2>
+                        <div class="cfg-info" id="cfg-sistema"></div>
+                    </section>
+
+                    <section class="cfg-card">
+                        <div class="cfg-card__cab">
+                            <h2 class="cfg-card__titulo">
+                                <span class="cfg-card__icono" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                </span>
+                                Usuarios del Sistema
+                            </h2>
+                            <button type="button" class="btn-inv btn-inv--negro" id="btn-nuevo-emp">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
+                                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Nuevo Empleado
+                            </button>
+                        </div>
+                        <div class="cfg-usuarios" id="cfg-usuarios"></div>
+                    </section>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ===================== TOAST (mensajes de éxito) ===================== -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- ===================== MODAL: NUEVO PRODUCTO ===================== -->
+    <div class="modal-overlay" id="modal-producto" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+            <div class="modal__cabecera">
+                <div>
+                    <h2 id="modal-titulo">Nuevo Producto</h2>
+                    <p class="modal__sub" id="modal-sub">Completa los campos para agregar un nuevo producto al
+                        inventario.</p>
+                </div>
+                <button type="button" class="modal__cerrar" id="modal-cerrar" aria-label="Cerrar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="form-producto" class="form-grid">
+                <div class="campo-modal col-6">
+                    <label for="p-nombre">Nombre del Producto <span class="req">*</span></label>
+                    <input id="p-nombre" name="nombre" type="text" required>
+                </div>
+                <div class="campo-modal col-6">
+                    <label for="p-imagen">URL de la Imagen</label>
+                    <input id="p-imagen" name="imagen" type="url" placeholder="https://...">
+                </div>
+
+                <div class="campo-modal col-3">
+                    <label for="p-sku">Código SKU <span class="req">*</span></label>
+                    <input id="p-sku" name="sku" type="text" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="p-categoria">Categoría <span class="req">*</span></label>
+                    <div class="campo-con-boton">
+                        <select id="p-categoria" name="categoria" required></select>
+                        <button type="button" class="btn-mini" id="btn-nueva-cat" title="Crear categoría">+ Nueva</button>
+                    </div>
+                </div>
+
+                <div class="campo-modal col-3">
+                    <label for="p-marca">Marca</label>
+                    <input id="p-marca" name="marca" type="text">
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="p-estado">Estado</label>
+                    <select id="p-estado" name="estado">
+                        <option value="Activo" selected>Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="campo-modal col-6">
+                    <label for="p-descripcion">Descripción</label>
+                    <textarea id="p-descripcion" name="descripcion" rows="3"></textarea>
+                </div>
+
+                <div class="campo-modal col-2">
+                    <label for="p-costo">Costo S/</label>
+                    <input id="p-costo" name="costo" type="number" step="0.1" min="0" value="0">
+                </div>
+                <div class="campo-modal col-2">
+                    <label for="p-precio">Precio S/</label>
+                    <input id="p-precio" name="precio" type="number" step="0.1" min="0" value="0">
+                </div>
+                <div class="campo-modal col-2">
+                    <label for="p-descuento">Descuento %</label>
+                    <input id="p-descuento" name="descuento" type="number" step="1" min="0" value="0">
+                </div>
+
+                <p class="alerta-descuento col-6" id="p-descuento-alerta" hidden></p>
+
+                <div class="campo-modal col-3">
+                    <label for="p-stock">Stock Actual</label>
+                    <input id="p-stock" name="stock" type="number" min="0" value="0">
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="p-minimo">Stock Mínimo</label>
+                    <input id="p-minimo" name="minimo" type="number" min="0" value="5">
+                </div>
+
+                <div class="form-acciones">
+                    <button type="button" class="btn-cancelar" id="modal-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================== MODAL: NUEVO EMPLEADO ===================== -->
+    <div class="modal-overlay" id="modal-empleado" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="emp-titulo">
+            <div class="modal__cabecera">
+                <div>
+                    <h2 id="emp-titulo">Nuevo Empleado</h2>
+                    <p class="modal__sub">Registra un nuevo usuario del sistema.</p>
+                </div>
+                <button type="button" class="modal__cerrar" id="emp-cerrar" aria-label="Cerrar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="form-empleado" class="form-grid">
+                <div class="campo-modal col-3">
+                    <label for="e-nombres">Nombres <span class="req">*</span></label>
+                    <input id="e-nombres" name="nombres" type="text" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="e-apellidos">Apellidos <span class="req">*</span></label>
+                    <input id="e-apellidos" name="apellidos" type="text" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="e-dni">DNI <span class="req">*</span></label>
+                    <input id="e-dni" name="dni" type="text" maxlength="8" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="e-usuario">Usuario <span class="req">*</span></label>
+                    <input id="e-usuario" name="usuario" type="text" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="e-clave">Clave <span class="req">*</span></label>
+                    <input id="e-clave" name="clave" type="password" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="e-rol">Rol</label>
+                    <select id="e-rol" name="rol">
+                        <option value="Empleado" selected>Empleado</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                </div>
+                <div class="form-acciones">
+                    <button type="button" class="btn-cancelar" id="emp-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar Empleado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================== MODAL: NUEVA CATEGORÍA ===================== -->
+    <div class="modal-overlay" id="modal-categoria" hidden>
+        <div class="modal modal--chico" role="dialog" aria-modal="true" aria-labelledby="cat-titulo">
+            <div class="modal__cabecera">
+                <div>
+                    <h2 id="cat-titulo">Categorías</h2>
+                    <p class="modal__sub">Crea, edita o desactiva categorías sin entrar a SQL Server.</p>
+                </div>
+                <button type="button" class="modal__cerrar" id="cat-cerrar" aria-label="Cerrar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <form id="form-categoria" class="form-grid">
+                <div class="campo-modal col-1">
+                    <label for="c-nombre">Nombre de la categoría <span class="req">*</span></label>
+                    <input id="c-nombre" name="nombre" type="text" required>
+                </div>
+                <div class="campo-modal col-1">
+                    <label for="c-desc">Descripción</label>
+                    <input id="c-desc" name="descripcion" type="text">
+                </div>
+                <div class="campo-modal col-1" id="cat-estado-campo" hidden>
+                    <label for="c-estado">Estado</label>
+                    <select id="c-estado" name="estado">
+                        <option value="Activo" selected>Activa</option>
+                        <option value="Inactivo">Inactiva</option>
+                    </select>
+                </div>
+                <div class="form-acciones">
+                    <button type="button" class="btn-cancelar" id="cat-cancelar">Cancelar</button>
+                    <button type="submit" class="btn-guardar" id="cat-guardar-btn">Crear Categoría</button>
+                </div>
+            </form>
+
+            <div class="cat-listado" id="cat-listado"></div>
+        </div>
+    </div>
+
+    <!-- ===================== MODAL: REPARTIDORES ===================== -->
+    <div class="modal-overlay" id="modal-repartidores" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rep-titulo">
+            <div class="modal__cabecera">
+                <div>
+                    <h2 id="rep-titulo">Repartidores</h2>
+                    <p class="modal__sub">Registra o da de baja a los repartidores de la bodega.</p>
+                </div>
+                <button type="button" class="modal__cerrar" id="rep-cerrar" aria-label="Cerrar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <form id="form-repartidor" class="form-grid">
+                <div class="campo-modal col-3">
+                    <label for="r-nombres">Nombres <span class="req">*</span></label>
+                    <input id="r-nombres" name="nombres" type="text" required>
+                </div>
+                <div class="campo-modal col-3">
+                    <label for="r-telefono">Teléfono</label>
+                    <input id="r-telefono" name="telefono" type="text" inputmode="tel">
+                </div>
+                <div class="form-acciones form-acciones--inline">
+                    <button type="submit" class="btn-guardar">Agregar Repartidor</button>
+                </div>
+            </form>
+
+            <div class="rep-listado" id="rep-listado"></div>
+        </div>
+    </div>
+
+    <!-- ===================== MODAL: PEDIDOS DE RECOJO ===================== -->
+    <div class="modal-overlay" id="modal-recojo" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="recojo-titulo">
+            <div class="modal__cabecera">
+                <div>
+                    <h2 id="recojo-titulo">Pedidos de recojo</h2>
+                    <p class="modal__sub">Importa un pedido web al POS para cobrarlo.</p>
+                </div>
+                <button type="button" class="modal__cerrar" id="recojo-cerrar" aria-label="Cerrar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="recojo-buscar">
+                <input type="search" id="recojo-telefono" inputmode="tel" placeholder="Buscar por teléfono del cliente…">
+                <button type="button" class="btn-mini" id="recojo-buscar-btn">Buscar</button>
+                <button type="button" class="btn-mini" id="recojo-todos-btn">Ver todos</button>
+            </div>
+
+            <div class="recojo-listado" id="recojo-listado"></div>
+        </div>
+    </div>
+
+    <!-- Dividido en varios archivos por seccion (mismo scope global, sin ES modules):
+         el orden importa, cada archivo usa funciones definidas en los anteriores. -->
+    <script src="dashboard-01-utilidades.js"></script>
+    <script src="dashboard-02-estado.js"></script>
+    <script src="dashboard-03-cabecera.js"></script>
+    <script src="dashboard-04-catalogo.js"></script>
+    <script src="dashboard-05-inicio.js"></script>
+    <script src="dashboard-06-inventario.js"></script>
+    <script src="dashboard-07-pos.js"></script>
+    <script src="dashboard-08-configuracion.js"></script>
+    <script src="dashboard-09-reportes.js"></script>
+    <script src="dashboard-10-delivery.js"></script>
+    <script src="dashboard-11-navegacion.js"></script>
+    <script src="dashboard-12-arranque.js"></script>
+</body>
+
+</html>

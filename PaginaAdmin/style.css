@@ -343,6 +343,26 @@ body {
     border: 1px solid #fecaca;
 }
 
+.campo select {
+    width: 100%;
+    border: 1px solid var(--field-line);
+    background: var(--field);
+    border-radius: 11px;
+    padding: 14px 15px;
+    font-size: 15px;
+    color: #111827;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+}
+
+.campo select:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, .14);
+}
+
 @media (max-width: 980px) {
     .contenedor-principal {
         grid-template-columns: 1fr;
