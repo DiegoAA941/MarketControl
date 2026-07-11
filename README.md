@@ -78,6 +78,3 @@ Sirve `PaginaAdmin/` y `paginaUsuarios/` desde un servidor local real (por ejemp
 
 Usuario `admin`, contraseña `admin123`.
 
-## Documentación adicional
-
-Ver `Documentacion/DocumentacionTecnica.md` para detalle de arquitectura, endpoints y reglas de negocio.
