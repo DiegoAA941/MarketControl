@@ -22,6 +22,7 @@ public class Pedido {
     private String observaciones;
     private String tipoEntrega; // 'Delivery' | 'Recojo'
     private BigDecimal costoEnvio; // tarifa de envío (solo Delivery; 0 en Recojo)
+    private String metodoPago; // 'Efectivo' | 'Yape'; elegido por el cliente (solo Delivery)
 
     // Composicion: el pedido referencia al Repartidor como objeto, no solo su id.
     private Repartidor repartidor;
@@ -141,6 +142,14 @@ public class Pedido {
 
     public void setCostoEnvio(BigDecimal costoEnvio) {
         this.costoEnvio = costoEnvio;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
     }
 
     public List<DetallePedido> getDetalles() {

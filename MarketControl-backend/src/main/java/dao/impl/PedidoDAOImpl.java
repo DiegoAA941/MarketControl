@@ -37,7 +37,7 @@ public class PedidoDAOImpl implements IPedidoDAO {
                 "El pedido debe tener al menos un detalle.");
 
         String sqlPedido = "INSERT INTO Pedidos (IdCliente, IdRepartidor, Estado, Total, "
-                + "Observaciones, TipoEntrega, CostoEnvio) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + "Observaciones, TipoEntrega, CostoEnvio, MetodoPago) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String sqlDetalle = "INSERT INTO DetallePedidos (IdPedido, IdProducto, Cantidad, "
                 + "PrecioUnitario, Subtotal) VALUES (?, ?, ?, ?, ?)";
 
@@ -59,6 +59,7 @@ public class PedidoDAOImpl implements IPedidoDAO {
                 ps.setString(6, (pedido.getTipoEntrega() != null && !pedido.getTipoEntrega().isBlank())
                         ? pedido.getTipoEntrega() : "Delivery");
                 ps.setBigDecimal(7, pedido.getCostoEnvio() != null ? pedido.getCostoEnvio() : java.math.BigDecimal.ZERO);
+                ps.setString(8, pedido.getMetodoPago());
                 ps.executeUpdate();
                 try (ResultSet generadas = ps.getGeneratedKeys()) {
                     if (generadas.next()) {
@@ -372,6 +373,7 @@ public class PedidoDAOImpl implements IPedidoDAO {
         p.setObservaciones(rs.getString("Observaciones"));
         p.setTipoEntrega(rs.getString("TipoEntrega"));
         p.setCostoEnvio(rs.getBigDecimal("CostoEnvio"));
+        p.setMetodoPago(rs.getString("MetodoPago"));
         return p;
     }
 

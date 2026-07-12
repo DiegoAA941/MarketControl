@@ -134,8 +134,8 @@ function activarInventario() {
 
     document.getElementById('modal-cerrar').addEventListener('click', cerrarModalProducto);
     document.getElementById('modal-cancelar').addEventListener('click', cerrarModalProducto);
-    document.getElementById('modal-producto').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) cerrarModalProducto();
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !document.getElementById('modal-producto').hidden) cerrarModalProducto();
     });
 
     document.getElementById('form-producto').addEventListener('submit', async (e) => {

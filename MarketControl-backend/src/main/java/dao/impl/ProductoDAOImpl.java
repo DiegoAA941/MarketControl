@@ -55,6 +55,9 @@ public class ProductoDAOImpl implements IProductoDAO {
             return filas > 0;
         } catch (SQLException e) {
             logger.error("Error al crear el producto '{}'.", p.getCodigoSku(), e);
+            if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
+                throw new IllegalArgumentException("Ya existe un producto con este código SKU");
+            }
             throw e;
         }
     }
@@ -177,6 +180,9 @@ public class ProductoDAOImpl implements IProductoDAO {
             return filas > 0;
         } catch (SQLException e) {
             logger.error("Error al actualizar el producto id={}.", p.getIdProducto(), e);
+            if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
+                throw new IllegalArgumentException("Ya existe un producto con este código SKU");
+            }
             throw e;
         }
     }

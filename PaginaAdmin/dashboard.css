@@ -1074,6 +1074,16 @@ body {
     color: #d92d20;
 }
 
+.rol-empleado #btn-nuevo,
+.rol-empleado #btn-nueva-cat,
+.rol-empleado #inv-tbody .icono-accion--stock,
+.rol-empleado #inv-tbody .icono-accion--editar,
+.rol-empleado #inv-tbody .icono-accion--eliminar,
+.rol-empleado #cat-listado .icono-accion--editar,
+.rol-empleado #cat-listado .icono-accion--eliminar {
+    display: none;
+}
+
 /* ===================== MODAL: NUEVO PRODUCTO ===================== */
 .modal-overlay {
     position: fixed;

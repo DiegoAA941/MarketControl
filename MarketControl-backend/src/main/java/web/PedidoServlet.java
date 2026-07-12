@@ -194,7 +194,7 @@ public class PedidoServlet extends ApiBaseServlet {
         Venta venta = new Venta();
         Integer idUsuario = (Integer) req.getSession().getAttribute("idUsuario");
         venta.setIdUsuario(idUsuario != null ? idUsuario : 0);
-        venta.setMetodoPago("Delivery");
+        venta.setMetodoPago(pedido.getMetodoPago() != null ? pedido.getMetodoPago() : "Efectivo");
         venta.setEstado("Completada");
 
         BigDecimal envio = pedido.getCostoEnvio() != null ? pedido.getCostoEnvio() : BigDecimal.ZERO;

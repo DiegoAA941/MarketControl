@@ -102,6 +102,19 @@
                     <label>Referencia
                         <input id="ck-referencia" type="text" placeholder="Ej. frente al parque">
                     </label>
+                    <div class="ck-metodo-pago">
+                        <span class="ck-metodo-pago__label">Método de pago <span>*</span></span>
+                        <div class="ck-metodo-pago__opciones">
+                            <label class="ck-metodo-pago__opcion">
+                                <input type="radio" name="ck-metodo" id="ck-metodo-efectivo" value="Efectivo" checked>
+                                Efectivo
+                            </label>
+                            <label class="ck-metodo-pago__opcion">
+                                <input type="radio" name="ck-metodo" id="ck-metodo-yape" value="Yape">
+                                Yape
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <label>Observaciones
                     <textarea id="ck-obs" rows="2" placeholder="Indicaciones adicionales (opcional)"></textarea>
@@ -116,6 +129,7 @@
 
     <div class="tienda-toast" id="tienda-toast" hidden></div>
 
+    <script src="carrito-storage.js"></script>
     <script src="tienda.js"></script>
 </body>
 

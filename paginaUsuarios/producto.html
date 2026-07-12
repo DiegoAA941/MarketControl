@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodega el Progreso · Producto</title>
+    <link rel="stylesheet" href="tienda.css">
+    <link rel="stylesheet" href="producto.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="pagina-producto">
+    <header>
+        <nav class="encabezado">
+            <div class="barra-superior">
+                <a class="logo" href="tienda.html">Bodega el Progreso</a>
+                <div class="carrito-contenedor">
+                    <button type="button" class="boton-carrito" aria-label="Abrir carrito de compras">
+                        Carrito
+                        <span class="carrito-badge" hidden>0</span>
+                    </button>
+
+                    <aside class="carrito-sidebar" role="dialog" aria-modal="true" aria-label="Carrito de compras"
+                        aria-hidden="true">
+                        <div class="carrito-cabecera">
+                            <h3>Carrito</h3>
+                            <button type="button" class="carrito-cerrar" aria-label="Cerrar carrito">&times;</button>
+                        </div>
+                        <div class="carrito-cuerpo vacio">
+                            <div class="carrito-img"></div>
+                            <h4>Carrito vacío</h4>
+                            <p>Agrega productos para comenzar</p>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="overlay"></div>
+
+    <main class="producto-main">
+        <a class="volver-tienda" href="tienda.html">&larr; Volver a la tienda</a>
+        <div id="producto-contenido" class="producto-cargando">Cargando producto…</div>
+
+        <section class="similares" id="similares-seccion" hidden>
+            <h2>Productos similares</h2>
+            <div class="similares-carrusel">
+                <button type="button" class="similar-flecha similar-flecha-izq" aria-label="Ver anteriores">&lsaquo;</button>
+                <div class="similares-lista" id="similares-lista"></div>
+                <button type="button" class="similar-flecha similar-flecha-der" aria-label="Ver siguientes">&rsaquo;</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="carrito-storage.js"></script>
+    <script src="producto.js"></script>
+</body>
+
+</html>

@@ -117,6 +117,12 @@ public class PublicServlet extends ApiBaseServlet {
                 return;
             }
 
+            String metodoPago = texto(o, "metodoPago");
+            if (!esRecojo && !"Efectivo".equals(metodoPago) && !"Yape".equals(metodoPago)) {
+                error(resp, HttpServletResponse.SC_BAD_REQUEST, "Selecciona un método de pago válido (Efectivo o Yape).");
+                return;
+            }
+
             // --- Items (se acota cantidad y se ignora cualquier precio enviado) ---
             JsonArray items = o.getAsJsonArray("items");
             if (items == null || items.isEmpty()) {
@@ -192,6 +198,7 @@ public class PublicServlet extends ApiBaseServlet {
             pedido.setEstado("Pendiente");
             pedido.setTipoEntrega(tipoEntrega);
             pedido.setCostoEnvio(envio);
+            pedido.setMetodoPago(esRecojo ? null : metodoPago);
             pedido.setObservaciones(texto(o, "observaciones"));
             pedido.setTotal(total.add(envio));   // productos + envío = monto a pagar
             pedido.setDetalles(detalles);

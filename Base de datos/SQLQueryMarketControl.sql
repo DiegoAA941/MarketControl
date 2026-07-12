@@ -111,6 +111,7 @@ CREATE TABLE Pedidos(
 	TipoEntrega VARCHAR(15) NOT NULL DEFAULT ('Delivery'),
 	Observaciones varchar(300) NULL,
 	CostoEnvio DECIMAL(10,2) NOT NULL DEFAULT 0,
+	MetodoPago varchar(20) NULL,
 PRIMARY KEY CLUSTERED (IdPedido ASC)
 ) ON [PRIMARY]
 GO
@@ -166,7 +167,7 @@ PRIMARY KEY CLUSTERED (IdMovimiento ASC)
 GO
 
 -- ==========================================
--- ÍNDICES NONCLUSTERED DE RENDIMIENTO
+-- ï¿½NDICES NONCLUSTERED DE RENDIMIENTO
 -- ==========================================
 CREATE NONCLUSTERED INDEX IX_ClienteTelefono ON Clientes (TelefonoHash ASC)
 GO

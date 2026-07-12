@@ -221,6 +221,7 @@ async function actualizarBadgeRecojos() {
         const lista = await api('/api/pedidos/recojo');
         const n = lista.length;
         badge.textContent = n > 9 ? '9+' : String(n);
+        badge.hidden = n === 0;
         badge.style.display = n > 0 ? 'inline-flex' : 'none';
     } catch (_) { /* no interrumpir la UI por un fallo de polling */ }
 }

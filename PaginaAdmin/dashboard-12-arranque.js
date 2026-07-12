@@ -3,6 +3,8 @@ async function iniciar() {
     try { usuarioActual = await api('/api/auth/sesion'); }
     catch (e) { window.location.href = 'index.html'; return; }
 
+    document.body.classList.toggle('rol-empleado', usuarioActual.rol === 'Empleado');
+
     pintarCabecera();
     pintarNav();
     activarMenuMovil();

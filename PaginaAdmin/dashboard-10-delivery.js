@@ -212,6 +212,7 @@ function activarRepartidores() {
             await api('/api/repartidores', { method: 'POST', body: payload });
             f.reset();
             await cargarRepartidores();
+            await cargarDelivery();
             mostrarToast('Repartidor agregado');
         } catch (err) { notificarError(err); }
     });
@@ -223,6 +224,7 @@ function activarRepartidores() {
         try {
             await api('/api/repartidores/' + Number(btn.dataset.id), { method: 'DELETE' });
             await cargarRepartidores();
+            await cargarDelivery();
             mostrarToast('Repartidor dado de baja');
         } catch (err) { notificarError(err); }
     });

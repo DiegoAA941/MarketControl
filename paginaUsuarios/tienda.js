@@ -6,7 +6,7 @@ const API_BASE = `${window.location.protocol}//${window.location.hostname}:8080/
 
 let productosBD = [];
 let productosActuales = [];
-let carrito = [];
+let carrito = cargarCarrito();
 let productosGrid;
 let config = { telefono_whatsapp: '', nombre_negocio: 'MarketControl', direccion: '', costo_envio: '0', envio_gratis_desde: '0' };
 let tipoEntrega = 'delivery';
@@ -62,6 +62,8 @@ async function init() {
         construirCategorias(cats || []);
         productosActuales = [...productosBD];
         renderizarProductos(productosActuales);
+        actualizarCarritoUI();
+        if (new URLSearchParams(window.location.search).get('checkout') === '1') abrirCheckout();
     } catch (e) {
         if (productosGrid) {
             productosGrid.innerHTML = `<p class="tienda-error">No se pudo cargar el catálogo.<br>Verifica que el servidor (Tomcat) esté activo.</p>`;
@@ -202,11 +204,13 @@ function renderizarProductos(lista) {
             : `<button type="button" class="boton-agregar"> + Agregar </button>`;
         return `
             <div class="producto-card ${agotado ? 'agotado' : ''}" data-id="${producto.IdProducto}">
-                <div class="producto-visual">${imagen}${etiqueta}</div>
-                <div class="producto-detalles">
-                    <span class="producto-marca">${esc(producto.Marca)}</span>
-                    <h3 class="producto-nombre">${esc(producto.NombreProducto)}</h3>
-                </div>
+                <a class="producto-card-link" href="producto.html?id=${encodeURIComponent(producto.IdProducto)}">
+                    <div class="producto-visual">${imagen}${etiqueta}</div>
+                    <div class="producto-detalles">
+                        <span class="producto-marca">${esc(producto.Marca)}</span>
+                        <h3 class="producto-nombre">${esc(producto.NombreProducto)}</h3>
+                    </div>
+                </a>
                 <div class="producto-compra">
                     <div class="precios">${precios}</div>
                     ${boton}
@@ -226,6 +230,13 @@ function bindCarrito() {
     botonCarrito?.addEventListener('click', abrir);
     botonCerrarCarrito?.addEventListener('click', cerrar);
     overlay?.addEventListener('click', cerrar);
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === CARRITO_STORAGE_KEY) {
+            carrito = cargarCarrito();
+            actualizarCarritoUI();
+        }
+    });
 
     if (productosGrid) {
         productosGrid.addEventListener('click', (e) => {
@@ -259,6 +270,7 @@ function agregarProductoAlCarrito(id) {
     else {
         carrito.push({ IdProducto: p.IdProducto, Nombre: p.NombreProducto, Precio: obtenerPrecioFinal(p), cantidad: 1, imagen: p.imagen });
     }
+    guardarCarrito(carrito);
     actualizarCarritoUI();
 }
 
@@ -267,12 +279,14 @@ function modificarCantidadCarrito(id, cambio) {
     if (i > -1) {
         carrito[i].cantidad += cambio;
         if (carrito[i].cantidad <= 0) carrito.splice(i, 1);
+        guardarCarrito(carrito);
         actualizarCarritoUI();
     }
 }
 
 function eliminarDelCarrito(id) {
     carrito = carrito.filter((x) => x.IdProducto !== id);
+    guardarCarrito(carrito);
     actualizarCarritoUI();
 }
 
@@ -392,10 +406,15 @@ async function enviarPedido(e) {
     const direccion = document.getElementById('ck-direccion').value.trim();
     const referencia = document.getElementById('ck-referencia').value.trim();
     const obs = document.getElementById('ck-obs').value.trim();
+    const metodoPago = document.querySelector('input[name="ck-metodo"]:checked')?.value || '';
 
     if (!nombres || !telefono) { return; }
     if (tipoEntrega === 'delivery' && !direccion) {
         notaCheckout('Ingresa la dirección de entrega para el delivery.', true);
+        return;
+    }
+    if (tipoEntrega === 'delivery' && !metodoPago) {
+        notaCheckout('Selecciona un método de pago.', true);
         return;
     }
 
@@ -410,6 +429,7 @@ async function enviarPedido(e) {
                 cliente: { nombres, telefono, direccion, referencia },
                 items: carrito.map((i) => ({ idProducto: i.IdProducto, cantidad: i.cantidad })),
                 observaciones: obs,
+                metodoPago,
             },
         });
         const numeroPedido = (creado && creado.idPedido) ? creado.idPedido : null;
@@ -418,9 +438,10 @@ async function enviarPedido(e) {
         const totalSrv = creado && creado.total != null ? Number(creado.total) : (subtotalProductos + envioSrv);
         const lineasCarrito = carrito.map((i) => `• ${i.cantidad}x ${i.Nombre} — S/${(i.Precio * i.cantidad).toFixed(2)}`).join('\n');
 
-        abrirWhatsApp({ nombres, telefono, direccion, referencia, obs, numeroPedido, envio: envioSrv, total: totalSrv, lineas: lineasCarrito });
+        abrirWhatsApp({ nombres, telefono, direccion, referencia, obs, metodoPago, numeroPedido, envio: envioSrv, total: totalSrv, lineas: lineasCarrito });
 
         carrito = [];
+        guardarCarrito(carrito);
         actualizarCarritoUI();
         document.getElementById('checkout-overlay').hidden = true;
         document.querySelector('.carrito-sidebar')?.classList.remove('mostrar');
@@ -448,6 +469,7 @@ function abrirWhatsApp(datos) {
     if (tipoEntrega === 'delivery') {
         msg += `\nDirección: ${datos.direccion}`;
         if (datos.referencia) msg += `\nReferencia: ${datos.referencia}`;
+        msg += `\nMétodo de pago: ${datos.metodoPago}`;
     }
     if (datos.obs) msg += `\nNota: ${datos.obs}`;
     if (datos.numeroPedido) msg += `\n\nN° de pedido: PD-${String(datos.numeroPedido).padStart(3, '0')}`;

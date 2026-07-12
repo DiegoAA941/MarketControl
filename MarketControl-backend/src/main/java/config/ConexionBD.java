@@ -1,14 +1,16 @@
 package config;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 /**
- * Conexion a SQL Server (JDBC), patron Singleton.
+ * Conexion a SQL Server (JDBC) via pool de conexiones (HikariCP), patron Singleton.
  * Nunca se loguean usuario ni contrasena, solo exito/fallo y codigo SQL.
  */
 public class ConexionBD {
@@ -44,14 +46,25 @@ public class ConexionBD {
             ";databaseName=" + BASE_DATOS +
             ";encrypt=true;trustServerCertificate=true";
 
+    private final HikariDataSource pool;
+
     private ConexionBD() {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USUARIO);
+        config.setPassword(CLAVE);
+        config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        config.setPoolName("MarketControlPool");
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(2);
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            logger.info("Driver JDBC de SQL Server cargado correctamente.");
-        } catch (ClassNotFoundException e) {
-            logger.error("No se encontro el driver JDBC de SQL Server (mssql-jdbc).", e);
-            throw new RuntimeException("Driver JDBC de SQL Server no disponible.", e);
+            pool = new HikariDataSource(config);
+        } catch (Exception e) {
+            logger.error("No se pudo iniciar el pool de conexiones para '{}' en {}:{}.",
+                    BASE_DATOS, SERVIDOR, PUERTO, e);
+            throw new RuntimeException("Pool de conexiones JDBC no disponible.", e);
         }
+        logger.info("Pool de conexiones listo para '{}' en {}:{}.", BASE_DATOS, SERVIDOR, PUERTO);
     }
 
     public static synchronized ConexionBD getInstancia() {
@@ -63,12 +76,9 @@ public class ConexionBD {
 
     public Connection getConexion() throws SQLException {
         try {
-            Connection conexion = DriverManager.getConnection(URL, USUARIO, CLAVE);
-            logger.info("Conexion establecida con la base de datos '{}' en {}:{}.",
-                    BASE_DATOS, SERVIDOR, PUERTO);
-            return conexion;
+            return pool.getConnection();
         } catch (SQLException e) {
-            logger.error("Fallo al conectar con la base de datos '{}'. Codigo SQL: {}",
+            logger.error("Fallo al obtener una conexion del pool para '{}'. Codigo SQL: {}",
                     BASE_DATOS, e.getSQLState(), e);
             throw e;
         }

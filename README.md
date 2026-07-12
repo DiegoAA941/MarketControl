@@ -77,4 +77,3 @@ Sirve `PaginaAdmin/` y `paginaUsuarios/` desde un servidor local real (por ejemp
 ### Credenciales de prueba
 
 Usuario `admin`, contraseña `admin123`.
-

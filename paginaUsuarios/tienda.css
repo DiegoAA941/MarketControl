@@ -383,6 +383,12 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
 }
 
+.producto-card-link {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+}
+
 .producto-visual {
     position: relative;
     background-color: #f9fafb;
@@ -840,6 +846,47 @@ main {
 
 .solo-delivery[hidden] {
     display: none;
+}
+
+.ck-metodo-pago {
+    display: grid;
+    gap: 8px;
+}
+
+.ck-metodo-pago__label {
+    font-size: .85rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.ck-metodo-pago__label span {
+    color: #ef4444;
+}
+
+.ck-metodo-pago__opciones {
+    display: flex;
+    gap: 10px;
+}
+
+.ck-metodo-pago__opciones .ck-metodo-pago__opcion {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .85rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 11px 12px;
+    cursor: pointer;
+}
+
+.ck-metodo-pago__opciones .ck-metodo-pago__opcion:has(input:checked) {
+    border-color: #10b981;
+    background: #ecfdf5;
+    color: #059669;
+    font-weight: 700;
 }
 
 .checkout-total {
