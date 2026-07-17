@@ -69,7 +69,7 @@ Prueba de vida: `GET http://localhost:8080/MarketControl/api/auth/sesion` debe r
 
 ### 5. Servir el frontend
 
-Sirve `PaginaAdmin/` y `paginaUsuarios/` desde un servidor local real (por ejemplo, la extensión Live Server de VS Code), usando `localhost` para que la cookie de sesión funcione correctamente. Cada archivo JS tiene una constante `API_BASE` al inicio — actualmente apunta al backend desplegado en Azure, así que para probar contra tu Tomcat local cámbiala a `http://localhost:8080/MarketControl` antes de servir el frontend.
+Sirve `PaginaAdmin/` y `paginaUsuarios/` desde un servidor local real (por ejemplo, la extensión Live Server de VS Code), usando `localhost` para que la cookie de sesión funcione correctamente. Cada archivo JS tiene una constante `API_BASE` al inicio — ajústala si Tomcat corre en otra URL.
 
 - Login / panel admin: `PaginaAdmin/index.html`
 - Tienda pública: `paginaUsuarios/tienda.html`

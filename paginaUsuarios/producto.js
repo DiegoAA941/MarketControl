@@ -1,5 +1,5 @@
 /* MarketControl — Página de detalle de producto. */
-const API_BASE = "https://bodega-el-progreso-api-ecc0fqa4atc0dbe3.brazilsouth-01.azurewebsites.net/MarketControl";
+const API_BASE = `${window.location.protocol}//${window.location.hostname}:8080/MarketControl`;
 
 let carrito = cargarCarrito();
 let productoActual = null;

@@ -1,7 +1,7 @@
 /* MarketControl — Tienda pública. API sin login (/api/public/*).
    Delivery reserva stock y crea Pedido; Recojo solo abre WhatsApp, se cobra después en el POS. */
 
-const API_BASE = "https://bodega-el-progreso-api-ecc0fqa4atc0dbe3.brazilsouth-01.azurewebsites.net/MarketControl";
+const API_BASE = `${window.location.protocol}//${window.location.hostname}:8080/MarketControl`;
 
 let productosBD = [];
 let productosActuales = [];
