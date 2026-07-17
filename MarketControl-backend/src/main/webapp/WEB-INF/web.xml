@@ -10,7 +10,7 @@
     <!-- Los servlets y el filtro CORS se registran por anotaciones
          (@WebServlet / @WebFilter). Aqui solo se configura la sesion. -->
     <session-config>
-        <session-timeout>15</session-timeout> <!-- minutos -->
+        <session-timeout>1</session-timeout> <!-- minutos -->
         <cookie-config>
             <http-only>true</http-only>
         </cookie-config>
