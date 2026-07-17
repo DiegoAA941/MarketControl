@@ -3,7 +3,7 @@
 
 /* ---------- 0. CONFIGURACIÓN DE LA API ---------- */
 // Ajusta esta base a donde despliegues el WAR en Tomcat.
-const API_BASE = "https://bodega-el-progreso-api-ecc0fqa4atc0dbe3.brazilsouth-01.azurewebsites.net";
+const API_BASE = "https://bodega-el-progreso-api-ecc0fqa4atc0dbe3.brazilsouth-01.azurewebsites.net/MarketControl";
 
 class ApiError extends Error {
     constructor(mensaje, status) { super(mensaje); this.status = status; }
